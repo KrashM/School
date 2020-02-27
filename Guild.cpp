@@ -3,120 +3,122 @@
 
 class Player{
 
-    private: string Name;
-    private: string Class;
-    private: string Rank = "Trial";
-    private: string Description = "n/a";
+    private: std :: string Name;
+    private: std :: string Class;
+    private: std :: string Rank = "Trial";
+    private: std :: string Description = "n/a";
 
-    public: string Get_Name(){ return Name; }
-    public: string Get_Class(){ return Class; }
-    public: string Get_Rank(){ return Rank; }
-    public: string Get_Description(){ return Description; }
+    public: std :: string Get_Name(){ return Name; }
+    public: std :: string Get_Class(){ return Class; }
+    public: std :: string Get_Rank(){ return Rank; }
+    public: std :: string Get_Description(){ return Description; }
 
-    public: void Set_Name(string name){ this.Name = name; }
-    public: void Set_Class(string class){ this.Class = class; }
-    public: void Set_Rank(string rank){ this.Rank = rank; }
-    public: void Set_Description(string description){ this.Description = description; }
+    public: void Set_Name(std :: string Name){ this -> Name = Name; }
+    public: void Set_Class(std :: string Class){ this -> Class = Class; }
+    public: void Set_Rank(std :: string Rank){ this -> Rank = Rank; }
+    public: void Set_Description(std :: string Description){ this -> Description = Description; }
 
-    public: Player(string name, string class){
+    public: Player(std :: string Name, std :: string Class){ this -> Name = Name; this -> Class = Class; };
+    public: Player(){ this -> Name = ""; this -> Class = ""; };
 
-        this.Name = name;
-        this.Class = class;
-
-    };
-
-    public: string ToString(){
-
-        return std :: format("Player {}: {}\nRank: {}\nDescription: {}", this.Name, this.Class, this.Rank, this.Description);
-
-    }
+    public: std :: string ToString(){ return "Player " + Name + ": " + Class + "\nRank: " + Rank + "\nDescription: " + Description; }
 
 };
 
 class Guild{
 
-    private: vector<Player> players;
-    private: string Name;
-    private: int fill_level;
+    private: std :: vector<Player> players;
+    private: std :: string Name;
+    private: int Count = 0;
     private: int Capacity;
 
 
-    public: Guild(string name, int capacity){
-
-        this.Name = name;
-        this.Capacity = capacity;
-
-    };
+    public: Guild(std :: string Name, int Capacity){ this -> Name = Name; this -> Capacity = Capacity; };
+    public: int Get_Count(){ return Count; }
 
     public: void AddPlayer(Player player){
 
-        if(this.players.size() > this.Capacity) return;
-        this.players.push_back(player);
-        this.fill_level++;
+        if(players.size() > Capacity) return;
+        players.push_back(player);
+        Count++;
 
     }
 
-    public: void RemovePlayer(string name){
+    public: bool RemovePlayer(std :: string name){
 
-        for(int i = 0; i < this.fill_level; i++){
+        for(int i = 0; i < Count; i++)
+            if(players[i].Get_Name() == name) {
 
-            if(this.players[i].Get_Name() == name) {
-
-                    this.players.erase(i);
-                    return;
+                    players.erase(players.begin() + i);
+                    return true;
 
             }
-
-        }
+        return false;
 
     }
 
-    public: void PromotePlayer(string name){
+    public: void PromotePlayer(std :: string name){
 
-        for(int i = 0; i < this.fill_level; i++){
+        for(int i = 0; i < Count; i++)
+            if(players[i].Get_Name() == name) {
 
-            if(this.players[i].Get_Name() == name){
-
-                if(this.players[i].Get_Rank() == "Member") return;
-                this.players[i].Set_Rank("Member");
+                if(players[i].Get_Rank() == "Member") return;
+                players[i].Set_Rank("Member");
                 return;
 
             }
 
-        }
-
     }
 
-    public: void DemotePlayer(string name){
+    public: void DemotePlayer(std :: string name){
 
-        for(int i = 0; i < this.fill_level; i++){
+        for(int i = 0; i < Count; i++)
+            if(players[i].Get_Name() == name) {
 
-            if(this.players[i].Get_Name() == name){
-
-                if(this.players[i].Get_Rank() == "Trial") return;
-                this.players[i].Set_Rank("Trial");
+                if(players[i].Get_Rank() == "Trial") return;
+                players[i].Set_Rank("Trial");
                 return;
 
             }
 
+    }
+
+    public: Player * KickPlayersByClass(std :: string Class){
+
+        int indexes[players.size()], index = 0, index_in_players = 0;
+
+        for(int i = 0; i < Count; i++){
+
+            if(players[i].Get_Class() == Class) {
+
+                indexes[index] = index_in_players;
+                index++;
+
+            }
+
+            index_in_players++;
+
         }
+
+        Player kicked_players[index];
+
+        for(int i = 0; i < index; i++){
+
+            kicked_players[i] = players[indexes[i]];
+            players.erase(players.begin() + indexes[i]);
+            Count--;
+
+        }
+
+        return kicked_players;
 
     }
 
-    public: void KickPlayersByClass(string class){
+    public: std :: string Report(){
 
-        vector<int> indexes;
-
-        for(int i = 0; i < this.fill_level; i++)
-            if(this.players[i].Get_Class() == class) indexes.push_back(i);
-
-        Player kicked_players[indexes.length];
-
-        for(int i = 0; i < indexes.size(); i++){
-
-            kicked_players[i] =
-
-        }
+        std :: string repo = "Players in the guild: " + Name;
+        for(int i = 0; i < Count; i++) repo += '\n' + players[i].Get_Name();
+        return repo;
 
     }
 
@@ -124,6 +126,40 @@ class Guild{
 
 int main(){
 
+    Guild guild = Guild("Weekend Raiders", 20);
+    Player player = Player("Mark", "Rouge");
 
+    std :: cout << player.ToString() << '\n';
+
+    guild.AddPlayer(player);
+
+    std :: cout << guild.Get_Count() << '\n';
+    std :: cout << guild.RemovePlayer("Gosho") << '\n';
+
+    Player firstPlayer = Player("Pep", "Warrior");
+    Player secondPlayer = Player("Lizzy", "Priest");
+    Player thirdPlayer = Player("Mike", "Rogue");
+    Player fourthPlayer = Player("Marlin", "Mage");
+
+    secondPlayer.Set_Description("Best healer EU");
+
+    guild.AddPlayer(firstPlayer);
+    guild.AddPlayer(secondPlayer);
+    guild.AddPlayer(thirdPlayer);
+    guild.AddPlayer(fourthPlayer);
+
+    guild.PromotePlayer("Lizzy");
+
+    std :: cout << guild.RemovePlayer("Pep") << '\n';
+
+    Player *kickedPlayers = guild.KickPlayersByClass("Rogue");
+
+    for(int i = 0; i < sizeof(kickedPlayers); i++){
+
+        if(i == sizeof(kickedPlayers) - 1) std :: cout << kickedPlayers[i].Get_Name() << '\n';
+        std :: cout << kickedPlayers[i].Get_Name() << " , ";
+
+    }
+    std :: cout << guild.Report() << '\n';
 
 }
