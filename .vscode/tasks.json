@@ -1,0 +1,18 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "build active file",
+            "command": "D:\\Programs\\mingw-w64\\mingw32\\bin\\g++.exe",
+            "args": [
+                "-g",
+                "${file}"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+  }
