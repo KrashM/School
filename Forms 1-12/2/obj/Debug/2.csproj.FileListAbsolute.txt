@@ -1,0 +1,9 @@
+D:\Coding\School work\Forms 1-12\2\bin\Debug\2.exe.config
+D:\Coding\School work\Forms 1-12\2\bin\Debug\2.exe
+D:\Coding\School work\Forms 1-12\2\bin\Debug\2.pdb
+D:\Coding\School work\Forms 1-12\2\obj\Debug\_2.Form1.resources
+D:\Coding\School work\Forms 1-12\2\obj\Debug\_2.Properties.Resources.resources
+D:\Coding\School work\Forms 1-12\2\obj\Debug\2.csproj.GenerateResource.cache
+D:\Coding\School work\Forms 1-12\2\obj\Debug\2.csproj.CoreCompileInputs.cache
+D:\Coding\School work\Forms 1-12\2\obj\Debug\2.exe
+D:\Coding\School work\Forms 1-12\2\obj\Debug\2.pdb

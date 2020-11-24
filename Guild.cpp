@@ -50,6 +50,7 @@ class Guild{
             if(players[i].Get_Name() == name) {
 
                     players.erase(players.begin() + i);
+                    Count--;
                     return true;
 
             }
@@ -82,31 +83,22 @@ class Guild{
             }
 
     }
+    //changed the method to type vector<Player>
+    public: std :: vector<Player> KickPlayersByClass(std :: string Class){
 
-    public: Player * KickPlayersByClass(std :: string Class){
+        std :: vector<Player> kicked_players;
 
-        int indexes[players.size()], index = 0, index_in_players = 0;
-
+        //directly cleaning the elements
         for(int i = 0; i < Count; i++){
 
-            if(players[i].Get_Class() == Class) {
+            if(players[i].Get_Class() == Class){
 
-                indexes[index] = index_in_players;
-                index++;
+                kicked_players.push_back(players[i]);
+                players.erase(players.begin() + i);
+                i--;
+                Count--;
 
             }
-
-            index_in_players++;
-
-        }
-
-        Player kicked_players[index];
-
-        for(int i = 0; i < index; i++){
-
-            kicked_players[i] = players[indexes[i]];
-            players.erase(players.begin() + indexes[i]);
-            Count--;
 
         }
 
@@ -117,7 +109,7 @@ class Guild{
     public: std :: string Report(){
 
         std :: string repo = "Players in the guild: " + Name;
-        for(int i = 0; i < Count; i++) repo += '\n' + players[i].Get_Name();
+        for(int i = 0; i < Count; i++) repo += '\n' + players[i].ToString();
         return repo;
 
     }
@@ -127,7 +119,7 @@ class Guild{
 int main(){
 
     Guild guild = Guild("Weekend Raiders", 20);
-    Player player = Player("Mark", "Rouge");
+    Player player = Player("Mark", "Rogue");
 
     std :: cout << player.ToString() << '\n';
 
@@ -152,12 +144,12 @@ int main(){
 
     std :: cout << guild.RemovePlayer("Pep") << '\n';
 
-    Player *kickedPlayers = guild.KickPlayersByClass("Rogue");
+    std :: vector<Player> kickedPlayers = guild.KickPlayersByClass("Rogue");
 
-    for(int i = 0; i < sizeof(kickedPlayers); i++){
+    for(int i = 0; i < kickedPlayers.size(); i++){
 
-        if(i == sizeof(kickedPlayers) - 1) std :: cout << kickedPlayers[i].Get_Name() << '\n';
-        std :: cout << kickedPlayers[i].Get_Name() << " , ";
+        if(i == kickedPlayers.size() - 1) std :: cout << kickedPlayers[i].Get_Name() << '\n';
+        else std :: cout << kickedPlayers[i].Get_Name() << ", ";
 
     }
     std :: cout << guild.Report() << '\n';
